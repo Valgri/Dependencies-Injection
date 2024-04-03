@@ -1,8 +1,10 @@
-import { createIoCContainer } from './ioc';
+import { Users } from './services/users';
+import { Logger } from './services/logger';
+
 import type { User, ApiConfig } from './types';
 
 const renderUsers = async (config: ApiConfig) => {
-  const usersService = createIoCContainer(config).resolve('Users');
+  const usersService = new Users(config);
   const users = await usersService.getUsers();
 
   const listNode = document.getElementById('users-list');
@@ -23,7 +25,8 @@ const app = () => {
 };
 
 window.onload = (event: Event) => {
-  const logger = createIoCContainer().resolve('Logger');
+  const logger = new Logger();
+
   logger.info('Page is loaded.');
 
   app();
