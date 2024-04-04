@@ -5,14 +5,19 @@ import { Users } from '../services/users';
 import { ApiConfig } from 'src/types';
 
 
-export const createIoCContainer = (config: ApiConfig = { path: '', resources: {} }) =>  {
-  const ioc = new IoCContainer();
+type IoCResources = {
+  config: ApiConfig;
+  logger: typeof Logger;
+  http: typeof HTTP;
+  users: typeof Users;
+}
 
-  ioc.register('Logger', new Logger());
+export const ioc = new IoCContainer<IoCResources>();
 
-  ioc.register('HTTP',  new HTTP(config));
+ioc.registerClass('logger', Logger);
 
-  ioc.register('Users', new Users(config));
+ioc.registerClass('http',  HTTP);
 
-  return ioc;
-};
+ioc.registerClass('users', Users);
+
+
