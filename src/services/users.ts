@@ -3,14 +3,16 @@ import { HTTP } from './http';
 import type { ApiConfig, User } from '../types';
 export class Users {
   http: HTTP;
-  apiConfig: ApiConfig;
+  config: ApiConfig;
 
-  constructor(apiConfig: ApiConfig) {
-    this.http = new HTTP(apiConfig);
-    this.apiConfig = apiConfig;
+  static $inject = ['http', 'config'];
+
+  constructor(http: HTTP, config: ApiConfig) {
+    this.http = http;
+    this.config = config;
   }
 
   getUsers() {
-    return this.http.get(this.apiConfig.resources.users) as unknown as User[];
+    return this.http.get(this.config.resources.users) as unknown as User[];
   }
 }
